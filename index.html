@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Event Rentals - Get Your Quote</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+        
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .font-sans { font-family: 'Inter', sans-serif; }
+        
+        .step-indicator {
+            transition: all 0.3s ease;
+        }
+        
+        .step-indicator.active {
+            background: linear-gradient(135deg, #d4af37, #f4e4a6);
+            color: #1a1a1a;
+        }
+        
+        .step-indicator.completed {
+            background: #10b981;
+            color: white;
+        }
+        
+        .form-slide {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.4s ease;
+            display: none;
+        }
+        
+        .form-slide.active {
+            opacity: 1;
+            transform: translateX(0);
+            display: block;
+        }
+        
+        .luxury-gradient {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        }
+        
+        .gold-accent {
+            background: linear-gradient(135deg, #d4af37, #f4e4a6);
+        }
+        
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+        
+        .file-upload-area {
+            border: 2px dashed #d4af37;
+            transition: all 0.3s ease;
+        }
+        
+        .file-upload-area:hover {
+            border-color: #f4e4a6;
+            background-color: rgba(212, 175, 55, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Hero Section with CTA -->
+    <div class="luxury-gradient text-white py-20">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <h1 class="font-serif text-5xl md:text-6xl font-bold mb-6">Luxury Event Rentals</h1>
+            <p class="text-xl md:text-2xl mb-8 text-gray-300">Transform your vision into an unforgettable experience</p>
+            <button onclick="openQuoteForm()" class="gold-accent text-black px-8 py-4 rounded-lg text-lg font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+                Get Instant Quote Now
+            </button>
+        </div>
+    </div>
+
+    <!-- Multi-Step Form Modal -->
+    <div id="quoteModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <!-- Progress Indicator -->
+            <div class="p-6 border-b">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="font-serif text-2xl font-bold">Get Your Custom Quote</h2>
+                    <button onclick="closeQuoteForm()" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+                </div>
+                <div class="flex justify-between">
+                    <div class="step-indicator active w-12 h-12 rounded-full flex items-center justify-center text-sm font-semibold">1</div>
+                    <div class="step-indicator w-12 h-12 rounded-full flex items-center justify-center text-sm font-semibold bg-gray-200">2</div>
+                    <div class="step-indicator w-12 h-12 rounded-full flex items-center justify-center text-sm font-semibold bg-gray-200">3</div>
+                    <div class="step-indicator w-12 h-12 rounded-full flex items-center justify-center text-sm font-semibold bg-gray-200">4</div>
+                    <div class="step-indicator w-12 h-12 rounded-full flex items-center justify-center text-sm font-semibold bg-gray-200">5</div>
+                </div>
+                <div class="flex justify-between text-xs mt-2 text-gray-600">
+                    <span>Contact</span>
+                    <span>Event Details</span>
+                    <span>Preferences</span>
+                    <span>Review</span>
+                    <span>Complete</span>
+                </div>
+            </div>
+
+            <!-- Form Content -->
+            <div class="p-6">
+                <!-- Step 1: Initial Engagement -->
+                <div id="step1" class="form-slide active">
+                    <h3 class="font-serif text-xl font-semibold mb-4">Let's Start With Your Details</h3>
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">First Name *</label>
+                                <input type="text" id="firstName" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Last Name *</label>
+                                <input type="text" id="lastName" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" required>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Email Address *</label>
+                            <input type="email" id="email" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Phone Number *</label>
+                            <input type="tel" id="phone" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" required>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Event Date *</label>
+                                <input type="date" id="eventDate" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Event Type *</label>
+                                <select id="eventType" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" required>
+                                    <option value="">Select Event Type</option>
+                                    <option value="wedding">Wedding</option>
+                                    <option value="corporate">Corporate Event</option>
+                                    <option value="gala">Gala</option>
+                                    <option value="birthday">Birthday Party</option>
+                                    <option value="anniversary">Anniversary</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-end mt-6">
+                        <button onclick="nextStep()" class="gold-accent text-black px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300">
+                            Continue →
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Event Details -->
+                <div id="step2" class="form-slide">
+                    <h3 class="font-serif text-xl font-semibold mb-4">Tell Us About Your Event</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Event Location/Venue Name *</label>
+                            <input type="text" id="venue" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Estimated Guest Count *</label>
+                            <input type="number" id="guestCount" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" min="1" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Rental Categories of Interest (Select all that apply)</label>
+                            <div class="checkbox-grid mt-3">
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" name="categories" value="tables" class="rounded text-yellow-500">
+                                    <span>Tables</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" name="categories" value="chairs" class="rounded text-yellow-500">
+                                    <span>Chairs</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" name="categories" value="linens" class="rounded text-yellow-500">
+                                    <span>Linens</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" name="categories" value="lounge" class="rounded text-yellow-500">
+                                    <span>Lounge Furniture</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" name="categories" value="tents" class="rounded text-yellow-500">
+                                    <span>Tents</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" name="categories" value="lighting" class="rounded text-yellow-500">
+                                    <span>Lighting</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" name="categories" value="decor" class="rounded text-yellow-500">
+                                    <span>Decor</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" name="categories" value="other" class="rounded text-yellow-500">
+                                    <span>Other</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Budget Range</label>
+                            <select id="budget" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                                <option value="">Select Budget Range</option>
+                                <option value="under-5k">Under $5,000</option>
+                                <option value="5k-10k">$5,000 - $10,000</option>
+                                <option value="10k-25k">$10,000 - $25,000</option>
+                                <option value="25k-50k">$25,000 - $50,000</option>
+                                <option value="over-50k">Over $50,000</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Upload Inspiration Images</label>
+                            <div class="file-upload-area p-6 rounded-lg text-center">
+                                <input type="file" id="images" multiple accept="image/*" class="hidden">
+                                <div onclick="document.getElementById('images').click()" class="cursor-pointer">
+                                    <div class="text-4xl mb-2">📸</div>
+                                    <p class="text-gray-600">Click to upload moodboard, venue layout, or inspiration images</p>
+                                    <p class="text-sm text-gray-500 mt-1">Multiple files accepted</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between mt-6">
+                        <button onclick="prevStep()" class="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-all duration-300">
+                            ← Back
+                        </button>
+                        <button onclick="nextStep()" class="gold-accent text-black px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300">
+                            Continue →
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Service Preferences -->
+                <div id="step3" class="form-slide">
+                    <h3 class="font-serif text-xl font-semibold mb-4">Service Preferences & Logistics</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Preferred Delivery Method</label>
+                            <div class="space-y-2">
+                                <label class="flex items-center space-x-2">
+                                    <input type="radio" name="delivery" value="delivery-setup" class="text-yellow-500">
+                                    <span>Delivery & Full Setup</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="radio" name="delivery" value="pickup" class="text-yellow-500">
+                                    <span>Customer Pickup</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="radio" name="delivery" value="setup-only" class="text-yellow-500">
+                                    <span>Setup Service Only</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Desired Setup Style</label>
+                            <select id="setupStyle" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                                <option value="">Select Setup Style</option>
+                                <option value="simple">Simple & Clean</option>
+                                <option value="lounge">Lounge & Casual</option>
+                                <option value="elegant">Elegant & Formal</option>
+                                <option value="thematic">Thematic & Custom</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Contact Preference</label>
+                            <div class="space-y-2">
+                                <label class="flex items-center space-x-2">
+                                    <input type="radio" name="contactPref" value="phone" class="text-yellow-500">
+                                    <span>Phone Call</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="radio" name="contactPref" value="email" class="text-yellow-500">
+                                    <span>Email</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="radio" name="contactPref" value="text" class="text-yellow-500">
+                                    <span>Text Message</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Best Times to Contact</label>
+                            <div class="space-y-2">
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" name="contactTimes" value="morning" class="rounded text-yellow-500">
+                                    <span>Morning (9 AM - 12 PM)</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" name="contactTimes" value="afternoon" class="rounded text-yellow-500">
+                                    <span>Afternoon (12 PM - 5 PM)</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" name="contactTimes" value="evening" class="rounded text-yellow-500">
+                                    <span>Evening (5 PM - 8 PM)</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Additional Notes or Special Requests</label>
+                            <textarea id="notes" rows="4" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent" placeholder="Tell us about any special requirements, themes, or specific items you need..."></textarea>
+                        </div>
+                    </div>
+                    <div class="flex justify-between mt-6">
+                        <button onclick="prevStep()" class="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-all duration-300">
+                            ← Back
+                        </button>
+                        <button onclick="nextStep()" class="gold-accent text-black px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300">
+                            Review →
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 4: Review -->
+                <div id="step4" class="form-slide">
+                    <h3 class="font-serif text-xl font-semibold mb-4">Review Your Information</h3>
+                    <div id="reviewContent" class="space-y-4 bg-gray-50 p-4 rounded-lg mb-6">
+                        <!-- Review content will be populated by JavaScript -->
+                    </div>
+                    <div class="space-y-4">
+                        <label class="flex items-start space-x-2">
+                            <input type="checkbox" id="terms" class="mt-1 rounded text-yellow-500" required>
+                            <span class="text-sm">I agree to the <a href="#" class="text-yellow-600 hover:underline">Terms of Service</a> and <a href="#" class="text-yellow-600 hover:underline">Privacy Policy</a></span>
+                        </label>
+                        <label class="flex items-start space-x-2">
+                            <input type="checkbox" id="marketing" class="mt-1 rounded text-yellow-500">
+                            <span class="text-sm">I would like to receive marketing communications about special offers and new services</span>
+                        </label>
+                    </div>
+                    <div class="flex justify-between mt-6">
+                        <button onclick="prevStep()" class="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-all duration-300">
+                            ← Back
+                        </button>
+                        <button onclick="submitQuote()" class="gold-accent text-black px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300">
+                            Submit My Quote
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 5: Confirmation -->
+                <div id="step5" class="form-slide text-center">
+                    <div class="text-6xl mb-4">✨</div>
+                    <h3 class="font-serif text-2xl font-semibold mb-4">Thank You!</h3>
+                    <p class="text-lg mb-4">Your quote request has been received successfully.</p>
+                    <div class="bg-yellow-50 p-4 rounded-lg mb-6">
+                        <p class="font-semibold mb-2">What happens next?</p>
+                        <ul class="text-left space-y-1 text-sm">
+                            <li>• We'll review your requirements within 2 hours</li>
+                            <li>• Our team will prepare a personalized quote</li>
+                            <li>• You'll receive a detailed proposal via your preferred contact method</li>
+                            <li>• We'll schedule a consultation to finalize details</li>
+                        </ul>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-6">
+                        Reference ID: <span id="referenceId" class="font-mono font-semibold"></span>
+                    </p>
+                    <button onclick="closeQuoteForm()" class="gold-accent text-black px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 5;
+        let formData = {};
+
+        function openQuoteForm() {
+            document.getElementById('quoteModal').classList.remove('hidden');
+            document.getElementById('quoteModal').classList.add('flex');
+        }
+
+        function closeQuoteForm() {
+            document.getElementById('quoteModal').classList.add('hidden');
+            document.getElementById('quoteModal').classList.remove('flex');
+            resetForm();
+        }
+
+        function resetForm() {
+            currentStep = 1;
+            updateStepIndicators();
+            showStep(1);
+            formData = {};
+        }
+
+        function nextStep() {
+            if (validateCurrentStep()) {
+                collectStepData();
+                if (currentStep < totalSteps) {
+                    currentStep++;
+                    updateStepIndicators();
+                    showStep(currentStep);
+                    
+                    if (currentStep === 4) {
+                        populateReview();
+                    }
+                }
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateStepIndicators();
+                showStep(currentStep);
+            }
+        }
+
+        function showStep(step) {
+            // Hide all steps
+            for (let i = 1; i <= totalSteps; i++) {
+                const stepElement = document.getElementById(`step${i}`);
+                stepElement.classList.remove('active');
+            }
+            
+            // Show current step
+            setTimeout(() => {
+                document.getElementById(`step${step}`).classList.add('active');
+            }, 100);
+        }
+
+        function updateStepIndicators() {
+            for (let i = 1; i <= totalSteps; i++) {
+                const indicator = document.querySelectorAll('.step-indicator')[i - 1];
+                indicator.classList.remove('active', 'completed');
+                
+                if (i < currentStep) {
+                    indicator.classList.add('completed');
+                } else if (i === currentStep) {
+                    indicator.classList.add('active');
+                }
+            }
+        }
+
+        function validateCurrentStep() {
+            const step = document.getElementById(`step${currentStep}`);
+            const requiredFields = step.querySelectorAll('[required]');
+            let isValid = true;
+
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.classList.add('border-red-500');
+                    isValid = false;
+                } else {
+                    field.classList.remove('border-red-500');
+                }
+            });
+
+            if (!isValid) {
+                alert('Please fill in all required fields before continuing.');
+            }
+
+            return isValid;
+        }
+
+        function collectStepData() {
+            switch (currentStep) {
+                case 1:
+                    formData.firstName = document.getElementById('firstName').value;
+                    formData.lastName = document.getElementById('lastName').value;
+                    formData.email = document.getElementById('email').value;
+                    formData.phone = document.getElementById('phone').value;
+                    formData.eventDate = document.getElementById('eventDate').value;
+                    formData.eventType = document.getElementById('eventType').value;
+                    break;
+                case 2:
+                    formData.venue = document.getElementById('venue').value;
+                    formData.guestCount = document.getElementById('guestCount').value;
+                    formData.categories = Array.from(document.querySelectorAll('input[name="categories"]:checked')).map(cb => cb.value);
+                    formData.budget = document.getElementById('budget').value;
+                    break;
+                case 3:
+                    formData.delivery = document.querySelector('input[name="delivery"]:checked')?.value || '';
+                    formData.setupStyle = document.getElementById('setupStyle').value;
+                    formData.contactPref = document.querySelector('input[name="contactPref"]:checked')?.value || '';
+                    formData.contactTimes = Array.from(document.querySelectorAll('input[name="contactTimes"]:checked')).map(cb => cb.value);
+                    formData.notes = document.getElementById('notes').value;
+                    break;
+            }
+        }
+
+        function populateReview() {
+            const reviewContent = document.getElementById('reviewContent');
+            const eventTypeLabels = {
+                'wedding': 'Wedding',
+                'corporate': 'Corporate Event',
+                'gala': 'Gala',
+                'birthday': 'Birthday Party',
+                'anniversary': 'Anniversary',
+                'other': 'Other'
+            };
+
+            const budgetLabels = {
+                'under-5k': 'Under $5,000',
+                '5k-10k': '$5,000 - $10,000',
+                '10k-25k': '$10,000 - $25,000',
+                '25k-50k': '$25,000 - $50,000',
+                'over-50k': 'Over $50,000'
+            };
+
+            reviewContent.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <h4 class="font-semibold mb-2">Contact Information</h4>
+                        <p><strong>Name:</strong> ${formData.firstName} ${formData.lastName}</p>
+                        <p><strong>Email:</strong> ${formData.email}</p>
+                        <p><strong>Phone:</strong> ${formData.phone}</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-2">Event Details</h4>
+                        <p><strong>Date:</strong> ${new Date(formData.eventDate).toLocaleDateString()}</p>
+                        <p><strong>Type:</strong> ${eventTypeLabels[formData.eventType] || formData.eventType}</p>
+                        <p><strong>Venue:</strong> ${formData.venue}</p>
+                        <p><strong>Guests:</strong> ${formData.guestCount}</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-2">Rental Categories</h4>
+                        <p>${formData.categories.length > 0 ? formData.categories.join(', ') : 'None selected'}</p>
+                        ${formData.budget ? `<p><strong>Budget:</strong> ${budgetLabels[formData.budget]}</p>` : ''}
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-2">Service Preferences</h4>
+                        ${formData.delivery ? `<p><strong>Delivery:</strong> ${formData.delivery.replace('-', ' & ')}</p>` : ''}
+                        ${formData.setupStyle ? `<p><strong>Style:</strong> ${formData.setupStyle}</p>` : ''}
+                        ${formData.contactPref ? `<p><strong>Contact via:</strong> ${formData.contactPref}</p>` : ''}
+                        ${formData.contactTimes.length > 0 ? `<p><strong>Best times:</strong> ${formData.contactTimes.join(', ')}</p>` : ''}
+                    </div>
+                </div>
+                ${formData.notes ? `<div class="mt-4"><h4 class="font-semibold mb-2">Additional Notes</h4><p class="text-sm bg-white p-3 rounded">${formData.notes}</p></div>` : ''}
+            `;
+        }
+
+        function submitQuote() {
+            const termsChecked = document.getElementById('terms').checked;
+            
+            if (!termsChecked) {
+                alert('Please agree to the Terms of Service and Privacy Policy to continue.');
+                return;
+            }
+
+            // Collect final data
+            formData.terms = termsChecked;
+            formData.marketing = document.getElementById('marketing').checked;
+            formData.submittedAt = new Date().toISOString();
+
+            // Generate reference ID
+            const referenceId = 'LER-' + Date.now().toString().slice(-6);
+            document.getElementById('referenceId').textContent = referenceId;
+
+            // Simulate form submission
+            console.log('Form submitted:', formData);
+            
+            // Move to confirmation step
+            currentStep = 5;
+            updateStepIndicators();
+            showStep(5);
+
+            // In a real implementation, you would send this data to your server
+            // and trigger email/SMS notifications
+        }
+
+        // File upload handling
+        document.getElementById('images').addEventListener('change', function(e) {
+            const fileCount = e.target.files.length;
+            if (fileCount > 0) {
+                const uploadArea = document.querySelector('.file-upload-area div');
+                uploadArea.innerHTML = `
+                    <div class="text-4xl mb-2">✅</div>
+                    <p class="text-green-600 font-semibold">${fileCount} file(s) selected</p>
+                    <p class="text-sm text-gray-500 mt-1">Click to change selection</p>
+                `;
+            }
+        });
+
+        // Initialize form
+        updateStepIndicators();
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96b7bfe644397b7f',t:'MTc1NDU3OTkzOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
